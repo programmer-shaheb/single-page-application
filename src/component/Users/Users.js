@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { userContext } from "../../App";
 import Card from "../Card/Card";
 
 const Users = () => {
+  const [loggedInUser] = useContext(userContext);
+
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -14,7 +17,11 @@ const Users = () => {
   return (
     <>
       <div className="my-5">
-        <h1 className="text-center">Our Users</h1>
+        <h1 className="text-center">
+          Welcome,
+          <span style={{ color: "#6C63FF" }}> {loggedInUser.displayName}</span>
+        </h1>
+        <h3 className="text-center">Our Users</h3>
       </div>
       <div className="container-fluid mb-5">
         <div className="row">

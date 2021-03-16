@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext, useState } from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min";
 import "./App.css";
@@ -10,10 +10,14 @@ import Navbar from "./Header/Navbar";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import UserDetail from "./component/UserDetail/UserDetail";
 import NoMatch from "./component/NoMatch/NoMatch";
+import PrivateRoute from "./component/PrivateRoute/PrivateRoute";
+
+export const userContext = createContext();
 
 const App = () => {
+  const [loggedInUser, setLoggedInUser] = useState("");
   return (
-    <>
+    <userContext.Provider value={[loggedInUser, setLoggedInUser]}>
       <Router>
         <Navbar></Navbar>
         <Switch>
@@ -26,18 +30,18 @@ const App = () => {
           <Route exact path="/contact">
             <Contact></Contact>
           </Route>
-          <Route exact path="/users">
+          <PrivateRoute exact path="/users">
             <Users></Users>
-          </Route>
-          <Route path="/users/:id">
+          </PrivateRoute>
+          <PrivateRoute path="/users/:id">
             <UserDetail></UserDetail>
-          </Route>
+          </PrivateRoute>
           <Route path="*">
             <NoMatch></NoMatch>
           </Route>
         </Switch>
       </Router>
-    </>
+    </userContext.Provider>
   );
 };
 
